@@ -1,0 +1,44 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [ "2.5" ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to Hostinger
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOSTINGER_HOST }}
+          port: ${{ secrets.HOSTINGER_PORT }}
+          username: ${{ secrets.HOSTINGER_USER }}
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          script_stop: true
+          script: |
+            export PATH=/opt/alt/php84/usr/bin:/usr/local/bin:/usr/bin:/bin:$PATH
+            cd /home/u136919644/domains/grey-worm-939047.hostingersite.com/public_html
+            
+            # Reset any modified tracked storage files to avoid pull conflicts
+            git restore storage/ 2>/dev/null || true
+            
+            # Pull latest changes from git
+            git pull origin 2.5
+            
+            # Install production dependencies with PHP 8.4
+            php -d memory_limit=2G /usr/local/bin/composer install --no-dev --optimize-autoloader --no-interaction
+            
+            # Run database migrations
+            php artisan migrate --force
+            
+            # Clear and rebuild framework caches
+            php artisan optimize:clear
+            php artisan optimize
+            
+            # Ensure correct permissions
+            chmod -R 775 storage bootstrap/cache
+
