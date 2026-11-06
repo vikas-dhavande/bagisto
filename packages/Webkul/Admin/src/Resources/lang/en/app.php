@@ -1366,6 +1366,7 @@ return [
 
                     'configurable' => [
                         'add-btn' => 'Add Variant',
+                        'default' => 'Default',
                         'delete-btn' => 'Delete',
                         'edit-btn' => 'Edit',
                         'empty-info' => 'To create various combination of product on a go.',
@@ -5679,6 +5680,7 @@ return [
                         'info' => 'Pick the storage files are saved to and served from.',
                         'default-driver' => 'Default Storage Driver',
                         'default-driver-info' => 'Files uploaded from now on are saved here. Files already uploaded stay on the storage they were saved to, so copy them across before switching or they will not be found.',
+                        'incomplete' => ':driver is selected, but its settings are incomplete, so uploaded files are not being saved to it yet.',
 
                         'drivers' => [
                             'local' => 'File (Local Storage)',
@@ -6062,7 +6064,8 @@ return [
                 'ai-btn-info' => 'Generate Image',
                 'allowed-types' => 'png, jpeg, jpg',
                 'image' => 'Image',
-                'not-allowed-error' => 'Only images files (.jpeg, .jpg, .png, ..) are allowed.',
+                'not-allowed-error' => 'Only image files (:types) are allowed.',
+                'size-limit-error' => 'The file exceeds the maximum upload size of :size.',
 
                 'ai-generation' => [
                     'apply' => 'Apply',
@@ -6114,13 +6117,15 @@ return [
                 'add-image' => 'Add Image',
                 'delete' => 'Delete',
                 'download' => 'Download',
+                'not-allowed-error' => 'Only :types files are allowed.',
                 'replace' => 'Replace',
+                'size-limit-error' => 'The file exceeds the maximum upload size of :size.',
             ],
 
             'videos' => [
                 'add-video-btn' => 'Add Video',
-                'allowed-types' => 'mp4, webm, mkv',
-                'not-allowed-error' => 'Only videos files (.mp4, .mov, .ogg ..) are allowed.',
+                'not-allowed-error' => 'Only video files (:types) are allowed.',
+                'size-limit-error' => 'The file exceeds the maximum upload size of :size.',
                 'video' => 'Video',
 
                 'seo' => [

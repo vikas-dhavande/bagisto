@@ -301,6 +301,7 @@
 
                                 <x-admin::media.images
                                     name="logo"
+                                    accepted-types=".bmp,.jpeg,.jpg,.png,.webp"
                                     meta-name="logo_meta"
                                     enable-seo="true"
                                     width="110px"
@@ -328,6 +329,7 @@
 
                                 <x-admin::media.images
                                     name="favicon"
+                                    accepted-types=".bmp,.jpeg,.jpg,.png,.webp,.ico"
                                     meta-name="favicon_meta"
                                     enable-seo="true"
                                     width="110px"
@@ -656,7 +658,7 @@
                                 name="is_maintenance_on"
                                 :value="1"
                                 :label="trans('admin::app.settings.channels.edit.status')"
-                                :checked="(boolean) $channel->is_maintenance_on"
+                                :checked="(bool) $channel->is_maintenance_on"
                             />
 
                             <x-admin::form.control-group.error control-name="is_maintenance_on" />

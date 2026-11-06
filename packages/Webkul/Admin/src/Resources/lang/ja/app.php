@@ -1366,6 +1366,7 @@ return [
 
                     'configurable' => [
                         'add-btn' => 'バリエーションを追加',
+                        'default' => 'デフォルト',
                         'delete-btn' => '削除',
                         'edit-btn' => '編集',
                         'empty-info' => '製品のさまざまな組み合わせをすぐに作成するには。',
@@ -5679,6 +5680,7 @@ return [
                         'info' => 'ファイルの保存先と配信元となるストレージを選択します。',
                         'default-driver' => '既定のストレージドライバー',
                         'default-driver-info' => '今後アップロードされるファイルはここに保存されます。すでにアップロード済みのファイルは以前のストレージに残るため、切り替える前にコピーしてください。コピーしないと見つからなくなります。',
+                        'incomplete' => ':driver が選択されていますが、設定が不完全なため、アップロードされたファイルはまだそこに保存されていません。',
 
                         'drivers' => [
                             'local' => 'ファイル（ローカルストレージ）',
@@ -6062,7 +6064,8 @@ return [
                 'ai-btn-info' => '画像生成',
                 'allowed-types' => 'png、jpeg、jpg',
                 'image' => '画像',
-                'not-allowed-error' => '画像ファイル（.jpeg、.jpg、.png、..）のみ許可されています。',
+                'not-allowed-error' => '画像ファイル（:types）のみ許可されています。',
+                'size-limit-error' => 'ファイルが最大アップロードサイズ :size を超えています。',
 
                 'ai-generation' => [
                     'apply' => '適用',
@@ -6114,13 +6117,15 @@ return [
                 'add-image' => '画像を追加',
                 'delete' => '削除',
                 'download' => 'ダウンロード',
+                'not-allowed-error' => ':types ファイルのみ許可されています。',
                 'replace' => '差し替える',
+                'size-limit-error' => 'ファイルが最大アップロードサイズ :size を超えています。',
             ],
 
             'videos' => [
                 'add-video-btn' => 'ビデオを追加',
-                'allowed-types' => 'mp4、webm、mkv',
-                'not-allowed-error' => 'ビデオファイルのみ許可されています（.mp4、.mov、.ogg ..）。',
+                'not-allowed-error' => 'ビデオファイルのみ許可されています（:types）。',
+                'size-limit-error' => 'ファイルが最大アップロードサイズ :size を超えています。',
                 'video' => '動画',
 
                 'seo' => [

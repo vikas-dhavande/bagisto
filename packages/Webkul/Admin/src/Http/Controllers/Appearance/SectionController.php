@@ -10,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Core\Models\Channel;
+use Webkul\Shop\Http\Middleware\PreviewChannel;
 use Webkul\Theme\Contracts\Section;
 use Webkul\Theme\Repositories\SectionRepository;
 use Webkul\Theme\Sections\SectionType;
@@ -62,8 +63,8 @@ class SectionController extends Controller
                 ->all(),
             'previewUrl' => route('shop.appearance.preview', [
                 'theme' => $code,
-                'channel' => $channel->code,
-                'locale' => $locale->code,
+                PreviewChannel::PARAMETER => $channel->code,
+                PreviewChannel::LOCALE_PARAMETER => $locale->code,
             ]),
             'publishUrl' => route('admin.appearance.sections.publish', [
                 'code' => $code,
@@ -88,7 +89,7 @@ class SectionController extends Controller
         $this->themeOrFail($code);
 
         $validated = $this->validate(request(), [
-            'name' => 'required',
+            'name' => 'required|max:255',
             'type' => ['required', Rule::in($this->sectionSchema->types($code)->keys()->all())],
         ]);
 
@@ -126,7 +127,7 @@ class SectionController extends Controller
     public function update(int $id)
     {
         $this->validate(request(), [
-            'name' => 'required',
+            'name' => 'required|max:255',
             'sort_order' => 'required|numeric',
             'type' => ['required', Rule::in($this->sectionSchema->types(request('theme_code'))->keys()->all())],
             'channel_id' => 'required|in:'.implode(',', (core()->getAllChannels()->pluck('id')->toArray())),
@@ -416,7 +417,7 @@ class SectionController extends Controller
     }
 
     /**
-     * The requested channel when it runs the theme, otherwise the first channel that does.
+     * The requested channel when it runs the theme, else the one the panel is opened on, else the first that does.
      *
      * @return Channel|null
      */
@@ -424,7 +425,9 @@ class SectionController extends Controller
     {
         $channels = $this->themeCatalog->activeChannels($code);
 
-        return $channels->firstWhere('code', request('channel')) ?? $channels->first();
+        return $channels->firstWhere('code', request('channel'))
+            ?? $channels->firstWhere('code', core()->getCurrentChannelCode())
+            ?? $channels->first();
     }
 
     /**

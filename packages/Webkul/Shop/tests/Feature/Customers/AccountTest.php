@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
@@ -108,6 +109,16 @@ it('should fail validation when required fields are missing on profile update', 
         ->assertJsonValidationErrorFor('last_name')
         ->assertJsonValidationErrorFor('gender')
         ->assertJsonValidationErrorFor('email');
+});
+
+it('should name the profile image by its label when it is not an image', function () {
+    $this->loginAsCustomer();
+
+    postJson(route('shop.customers.account.profile.update'), [
+        'image' => [UploadedFile::fake()->image('avatar.php')],
+    ])
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors(['image.0' => 'The Profile Image field']);
 });
 
 it('should update the profile when the same email exists on another channel', function () {
@@ -292,6 +303,18 @@ it('should fail validation when required fields are missing on address store', f
         ->assertJsonValidationErrorFor('country');
 });
 
+it('should refuse street lines that together run past the address column on address store', function () {
+    $customer = $this->loginAsCustomer();
+
+    postJson(route('shop.customers.account.addresses.store'), $this->storefrontAddress([
+        'address' => [str_repeat('a', 200), str_repeat('b', 60)],
+    ]))
+        ->assertUnprocessable()
+        ->assertOnlyJsonValidationErrors(['address']);
+
+    $this->assertDatabaseMissing('addresses', ['customer_id' => $customer->id]);
+});
+
 it('should return the address edit page', function () {
     $customer = Customer::factory()->create();
 
@@ -416,7 +439,7 @@ it('should not delete the address of another customer', function () {
     $this->assertDatabaseHas('addresses', ['id' => $address->id]);
 });
 
-it('should not let the address api update the address of another customer', function () {
+it('should not let the address API update the address of another customer', function () {
     $address = addressOf(Customer::factory()->create());
 
     $this->loginAsCustomer();

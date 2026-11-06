@@ -1366,6 +1366,7 @@ return [
 
                     'configurable' => [
                         'add-btn' => '添加变体',
+                        'default' => '默认',
                         'delete-btn' => '删除',
                         'edit-btn' => '编辑',
                         'empty-info' => '随时创建产品的各种组合。',
@@ -5679,6 +5680,7 @@ return [
                         'info' => '选择文件保存和对外提供的存储。',
                         'default-driver' => '默认存储驱动',
                         'default-driver-info' => '从现在起上传的文件将保存到这里。此前上传的文件仍留在原来的存储中，请在切换前先复制过去，否则将无法找到。',
+                        'incomplete' => '已选择 :driver，但其设置不完整，因此上传的文件尚未保存到其中。',
 
                         'drivers' => [
                             'local' => '文件（本地存储）',
@@ -6062,7 +6064,8 @@ return [
                 'ai-btn-info' => '生成图像',
                 'allowed-types' => 'png, jpeg, jpg',
                 'image' => '图片',
-                'not-allowed-error' => '仅允许图像文件（.jpeg、.jpg、.png 等）。',
+                'not-allowed-error' => '仅允许图像文件（:types）。',
+                'size-limit-error' => '文件超过最大上传大小 :size。',
 
                 'ai-generation' => [
                     'apply' => '应用',
@@ -6114,13 +6117,15 @@ return [
                 'add-image' => '添加图片',
                 'delete' => '删除',
                 'download' => '下载',
+                'not-allowed-error' => '仅允许 :types 文件。',
                 'replace' => '替换',
+                'size-limit-error' => '文件超过最大上传大小 :size。',
             ],
 
             'videos' => [
                 'add-video-btn' => '添加视频',
-                'allowed-types' => 'mp4, webm, mkv',
-                'not-allowed-error' => '仅允许视频文件（.mp4、.mov、.ogg 等）。',
+                'not-allowed-error' => '仅允许视频文件（:types）。',
+                'size-limit-error' => '文件超过最大上传大小 :size。',
                 'video' => '视频',
 
                 'seo' => [

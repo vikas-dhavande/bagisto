@@ -1366,6 +1366,7 @@ return [
 
                     'configurable' => [
                         'add-btn' => 'إضافة متغير',
+                        'default' => 'افتراضي',
                         'delete-btn' => 'حذف',
                         'edit-btn' => 'تعديل',
                         'empty-info' => 'لإنشاء مجموعات متنوعة من المنتجات بسرعة.',
@@ -5679,6 +5680,7 @@ return [
                         'info' => 'اختر وحدة التخزين التي تُحفظ فيها الملفات وتُقدَّم منها.',
                         'default-driver' => 'مشغّل التخزين الافتراضي',
                         'default-driver-info' => 'ستُحفظ الملفات المرفوعة من الآن فصاعدًا هنا. أما الملفات المرفوعة سابقًا فتبقى في وحدة التخزين السابقة، لذا انسخها قبل التبديل وإلا فلن يتم العثور عليها.',
+                        'incomplete' => 'تم اختيار :driver، لكن إعداداته غير مكتملة، لذا لا تُحفظ الملفات المرفوعة فيه بعد.',
 
                         'drivers' => [
                             'local' => 'ملف (تخزين محلي)',
@@ -6062,7 +6064,8 @@ return [
                 'ai-btn-info' => 'إنشاء صورة',
                 'allowed-types' => 'png، jpeg، jpg',
                 'image' => 'صورة',
-                'not-allowed-error' => 'تُسمح فقط بملفات الصور (.jpeg، .jpg، .png، ...).',
+                'not-allowed-error' => 'تُسمح فقط بملفات الصور (:types).',
+                'size-limit-error' => 'يتجاوز الملف الحد الأقصى لحجم الرفع :size.',
 
                 'ai-generation' => [
                     'apply' => 'تطبيق',
@@ -6114,13 +6117,15 @@ return [
                 'add-image' => 'إضافة صورة',
                 'delete' => 'حذف',
                 'download' => 'تحميل',
+                'not-allowed-error' => 'يُسمح فقط بملفات :types.',
                 'replace' => 'استبدال',
+                'size-limit-error' => 'يتجاوز الملف الحد الأقصى لحجم الرفع :size.',
             ],
 
             'videos' => [
                 'add-video-btn' => 'إضافة فيديو',
-                'allowed-types' => 'mp4، webm، mkv',
-                'not-allowed-error' => 'يُسمح فقط بملفات الفيديو (.mp4، .mov، .ogg ..).',
+                'not-allowed-error' => 'يُسمح فقط بملفات الفيديو (:types).',
+                'size-limit-error' => 'يتجاوز الملف الحد الأقصى لحجم الرفع :size.',
                 'video' => 'فيديو',
 
                 'seo' => [

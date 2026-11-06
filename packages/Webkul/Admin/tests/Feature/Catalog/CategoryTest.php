@@ -272,6 +272,34 @@ it('should fail validation when slug is already taken', function () {
         ->assertJsonValidationErrorFor('slug');
 });
 
+it('should refuse a slug longer than the slug column holds on store', function () {
+    $this->loginAsAdmin();
+
+    postJson(route('admin.catalog.categories.store'), [
+        'slug' => str_repeat('a', 256),
+        'name' => 'Long Slug',
+        'position' => 1,
+        'attributes' => filterableAttributeIds(),
+    ])
+        ->assertUnprocessable()
+        ->assertOnlyJsonValidationErrors(['slug']);
+});
+
+it('should refuse a slug that is not a slug on store', function () {
+    $this->loginAsAdmin();
+
+    postJson(route('admin.catalog.categories.store'), [
+        'slug' => 'casual wear/sale',
+        'name' => 'Not A Slug',
+        'position' => 1,
+        'attributes' => filterableAttributeIds(),
+    ])
+        ->assertUnprocessable()
+        ->assertOnlyJsonValidationErrors(['slug']);
+
+    $this->assertDatabaseMissing('category_translations', ['slug' => 'casual wear/sale']);
+});
+
 it('should fail validation when logo_path is not an array of images', function () {
     $this->loginAsAdmin();
 
@@ -280,6 +308,20 @@ it('should fail validation when logo_path is not an array of images', function (
     ])
         ->assertUnprocessable()
         ->assertJsonValidationErrorFor('logo_path');
+});
+
+it('should name the logo and banner by their labels when they are not images', function () {
+    $this->loginAsAdmin();
+
+    postJson(route('admin.catalog.categories.store'), [
+        'logo_path' => ['image_0' => UploadedFile::fake()->image('logo.php')],
+        'banner_path' => ['image_0' => UploadedFile::fake()->image('banner.php')],
+    ])
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors([
+            'logo_path.image_0' => 'The Logo field',
+            'banner_path.image_0' => 'The Banner field',
+        ]);
 });
 
 it('should fail validation when image files have invalid extensions', function () {
@@ -429,6 +471,59 @@ it('should fail validation when required fields are missing on update', function
         ->assertJsonValidationErrorFor($localeCode.'.slug')
         ->assertJsonValidationErrorFor('position')
         ->assertJsonValidationErrorFor('attributes');
+});
+
+it('should refuse a slug longer than the slug column holds on update', function () {
+    $category = createCategory();
+
+    $localeCode = core()->getRequestedLocaleCode();
+
+    $this->loginAsAdmin();
+
+    putJson(route('admin.catalog.categories.update', $category->id), [
+        $localeCode => [
+            'name' => 'Long Slug',
+            'slug' => str_repeat('a', 256),
+        ],
+        'locale' => $localeCode,
+        'attributes' => filterableAttributeIds(),
+        'position' => 1,
+    ])
+        ->assertUnprocessable()
+        ->assertOnlyJsonValidationErrors([$localeCode.'.slug'])
+        ->assertJsonValidationErrors([
+            $localeCode.'.slug' => trans('validation.max.string', [
+                'attribute' => trans('admin::app.catalog.categories.edit.slug'),
+                'max' => 255,
+            ]),
+        ]);
+});
+
+it('should keep a name longer than 255 characters in full, since the name column is text', function () {
+    $category = createCategory();
+
+    $localeCode = core()->getRequestedLocaleCode();
+
+    $name = str_repeat('Casual Wear ', 30);
+
+    $this->loginAsAdmin();
+
+    putJson(route('admin.catalog.categories.update', $category->id), [
+        $localeCode => [
+            'name' => $name,
+            'slug' => $category->slug,
+        ],
+        'locale' => $localeCode,
+        'attributes' => filterableAttributeIds(),
+        'position' => 1,
+    ])
+        ->assertRedirect(route('admin.catalog.categories.index'));
+
+    $this->assertDatabaseHas('category_translations', [
+        'category_id' => $category->id,
+        'locale' => $localeCode,
+        'name' => trim($name),
+    ]);
 });
 
 it('should fail validation when description is missing for products_and_description on update', function () {

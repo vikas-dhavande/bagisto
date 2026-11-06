@@ -129,14 +129,14 @@
 
                                 <div class="grid gap-y-2.5 max-md:w-full max-md:gap-y-0">
                                     <div class="flex justify-between">
-                                        <p class="text-base font-medium max-md:text-sm">
+                                        <p class="text-base font-medium wrap-anywhere max-md:text-sm">
                                             @{{ wishlist.product.name }}
                                         </p>
 
                                         <button
                                             type="button"
                                             @click="remove"
-                                            class="icon-bin hidden text-2xl max-md:block cursor-pointer focus-visible:ring-2 focus-visible:ring-navyBlue focus-visible:outline-hidden rounded bg-transparent border-0"
+                                            class="icon-bin hidden text-2xl max-md:block cursor-pointer focus-visible:ring-2 focus-visible:ring-navyBlue focus-visible:outline-hidden rounded-sm bg-transparent border-0"
                                             aria-label="@lang('shop::app.customers.account.wishlist.remove')"
                                         ></button>
                                     </div>
@@ -150,7 +150,7 @@
                                             <div>
                                                 <button
                                                     type="button"
-                                                    class="flex cursor-pointer items-center gap-x-4 text-base focus-visible:ring-2 focus-visible:ring-navyBlue focus-visible:outline-hidden rounded text-left ltr:text-left rtl:text-right w-full bg-transparent border-0"
+                                                    class="flex cursor-pointer items-center gap-x-4 text-base focus-visible:ring-2 focus-visible:ring-navyBlue focus-visible:outline-hidden rounded-sm text-left ltr:text-left rtl:text-right w-full bg-transparent border-0"
                                                     @click="wishlist.option_show = ! wishlist.option_show"
                                                 >
                                                     @lang('shop::app.customers.account.wishlist.see-details')
@@ -206,7 +206,7 @@
                                         <!--Wishlist Item removed button-->
                                         <button
                                             type="button"
-                                            class="flex cursor-pointer justify-end text-base text-blue-700 max-md:hidden focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:outline-hidden rounded bg-transparent border-0"
+                                            class="flex cursor-pointer justify-end text-base text-blue-700 max-md:hidden focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:outline-hidden rounded-sm bg-transparent border-0"
                                             @click="remove"
                                         >
                                             @lang('shop::app.customers.account.wishlist.remove')
@@ -221,7 +221,7 @@
                                         <x-shop::quantity-changer
                                             name="quantity"
                                             ::value="wishlist.options.quantity ?? 1"
-                                            class="flex max-h-10 items-center gap-x-2.5 rounded-[54px] border border-navyBlue px-3.5 py-1.5 max-md:gap-x-1 max-md:px-1.5 max-md:py-1"
+                                            class="flex max-h-10 items-center gap-x-2.5 rounded-full border border-navyBlue px-3.5 py-1.5 max-md:gap-x-1 max-md:px-1.5 max-md:py-1"
                                             :removable="true"
                                             @change="(qty) => wishlist.quantity = qty"
                                             @remove="remove"
@@ -252,7 +252,7 @@
 
                                 <button
                                     type="button"
-                                    class="flex cursor-pointer justify-end text-base text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:outline-hidden rounded bg-transparent border-0 ltr:ml-auto rtl:mr-auto"
+                                    class="flex cursor-pointer justify-end text-base text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:outline-hidden rounded-sm bg-transparent border-0 ltr:ml-auto rtl:mr-auto"
                                     @click="remove"
                                 >
                                     @lang('shop::app.customers.account.wishlist.remove')

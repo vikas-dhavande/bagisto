@@ -2,7 +2,7 @@
     $admin = auth()->guard('admin')->user();
 @endphp
 
-<header class="sticky top-0 z-10001 flex items-center justify-between border-b bg-white px-2 py-2 dark:border-gray-800 dark:bg-gray-900 sm:px-4 sm:py-2.5">
+<header class="sticky top-0 z-50 flex items-center justify-between border-b bg-white px-2 py-2 dark:border-gray-800 dark:bg-gray-900 sm:px-4 sm:py-2.5">
     <div class="flex items-center gap-1 sm:gap-1.5">
         <!-- Hamburger Menu -->
         <i
@@ -43,7 +43,7 @@
                     placeholder="@lang('admin::app.components.layouts.header.mega-search.title')"
                 >
 
-                <kbd class="pointer-events-none absolute top-1/2 flex -translate-y-1/2 animate-pulse items-center gap-0.5 rounded border border-violet-300 bg-violet-50 px-2 py-1 font-sans text-[11px] font-semibold leading-none text-violet-700 dark:border-violet-500/40 dark:bg-violet-500/10 dark:text-violet-300 ltr:right-2 rtl:left-2 sm:ltr:right-3 sm:rtl:left-3">
+                <kbd class="pointer-events-none absolute top-1/2 flex -translate-y-1/2 animate-pulse items-center gap-0.5 rounded-sm border border-violet-300 bg-violet-50 px-2 py-1 font-sans text-[11px] font-semibold leading-none text-violet-700 dark:border-violet-500/40 dark:bg-violet-500/10 dark:text-violet-300 ltr:right-2 rtl:left-2 sm:ltr:right-3 sm:rtl:left-3">
                     @lang('admin::app.components.layouts.header.mega-search.shortcut')
                 </kbd>
             </div>
@@ -193,7 +193,7 @@
                         </a>
 
                         @if ($menuItem->haveChildren())
-                            <div class="{{ $menuItem->isActive() ? ' grid! bg-gray-100 dark:bg-gray-950' : '' }} hidden min-w-45 ltr:pl-8 rtl:pr-8 pb-2 rounded-b-lg z-[100] sm:ltr:pl-10 sm:rtl:pr-10">
+                            <div class="{{ $menuItem->isActive() ? ' grid! bg-gray-100 dark:bg-gray-950' : '' }} hidden min-w-45 ltr:pl-8 rtl:pr-8 pb-2 rounded-b-lg z-10 sm:ltr:pl-10 sm:rtl:pr-10">
                                 @foreach ($menuItem->getChildren() as $subMenuItem)
                                     <a
                                         href="{{ $subMenuItem->getUrl() }}"
@@ -277,13 +277,13 @@
 
             <kbd
                 v-show="! isDropdownOpen"
-                class="pointer-events-none absolute top-1/2 flex -translate-y-1/2 animate-pulse items-center gap-0.5 rounded border border-violet-300 bg-violet-50 px-2 py-1 font-sans text-[11px] font-semibold leading-none text-violet-700 dark:border-violet-500/40 dark:bg-violet-500/10 dark:text-violet-300 ltr:right-2 rtl:left-2 sm:ltr:right-3 sm:rtl:left-3"
+                class="pointer-events-none absolute top-1/2 flex -translate-y-1/2 animate-pulse items-center gap-0.5 rounded-sm border border-violet-300 bg-violet-50 px-2 py-1 font-sans text-[11px] font-semibold leading-none text-violet-700 dark:border-violet-500/40 dark:bg-violet-500/10 dark:text-violet-300 ltr:right-2 rtl:left-2 sm:ltr:right-3 sm:rtl:left-3"
             >
                 @lang('admin::app.components.layouts.header.mega-search.shortcut')
             </kbd>
 
             <div
-                class="absolute top-8 z-10 w-full rounded-lg border bg-white shadow-[0px_0px_0px_0px_rgba(0,0,0,0.10),0px_1px_3px_0px_rgba(0,0,0,0.10),0px_5px_5px_0px_rgba(0,0,0,0.09),0px_12px_7px_0px_rgba(0,0,0,0.05),0px_22px_9px_0px_rgba(0,0,0,0.01),0px_34px_9px_0px_rgba(0,0,0,0.00)] dark:border-gray-800 dark:bg-gray-900 sm:top-10"
+                class="absolute top-8 z-20 w-full rounded-lg border bg-white shadow-[0px_0px_0px_0px_rgba(0,0,0,0.10),0px_1px_3px_0px_rgba(0,0,0,0.10),0px_5px_5px_0px_rgba(0,0,0,0.09),0px_12px_7px_0px_rgba(0,0,0,0.05),0px_22px_9px_0px_rgba(0,0,0,0.01),0px_34px_9px_0px_rgba(0,0,0,0.00)] dark:border-gray-800 dark:bg-gray-900 sm:top-10"
                 v-if="isDropdownOpen"
             >
                 <!-- Search Tabs -->
@@ -316,7 +316,7 @@
                                     <!-- Image -->
                                     <div
                                         class="relative h-10 max-h-10 w-full max-w-10 overflow-hidden rounded-sm sm:h-15 sm:max-h-15 sm:max-w-15"
-                                        :class="{'overflow-hidden rounded border border-dashed border-gray-300 dark:border-gray-800 dark:mix-blend-exclusion dark:invert': ! product.images.length}"
+                                        :class="{'overflow-hidden rounded-sm border border-dashed border-gray-300 dark:border-gray-800 dark:mix-blend-exclusion dark:invert': ! product.images.length}"
                                     >
                                         <template v-if="! product.images.length">
                                             <img

@@ -39,12 +39,12 @@ class LocaleController extends Controller
     public function store(): JsonResponse
     {
         $this->validate(request(), [
-            'code' => ['required', 'unique:locales,code', new Code],
-            'name' => 'required',
+            'code' => ['required', 'max:255', 'unique:locales,code', new Code],
+            'name' => 'required|max:255',
             'direction' => 'required|in:ltr,rtl',
             'logo_path' => 'array',
-            'logo_path.*' => 'image|extensions:jpeg,jpg,png,svg,webp',
-        ]);
+            'logo_path.*' => 'image:allow_svg|extensions:jpeg,jpg,png,svg,webp',
+        ], [], ['logo_path.*' => trans('admin::app.settings.locales.index.create.locale-logo')]);
 
         Event::dispatch('core.locale.create.before');
 
@@ -80,11 +80,11 @@ class LocaleController extends Controller
     public function update(): JsonResponse
     {
         $this->validate(request(), [
-            'name' => 'required',
+            'name' => 'required|max:255',
             'direction' => 'required|in:ltr,rtl',
             'logo_path' => 'array',
-            'logo_path.*' => 'image|extensions:jpeg,jpg,png,svg,webp',
-        ]);
+            'logo_path.*' => 'image:allow_svg|extensions:jpeg,jpg,png,svg,webp',
+        ], [], ['logo_path.*' => trans('admin::app.settings.locales.index.create.locale-logo')]);
 
         Event::dispatch('core.locale.update.before', request()->id);
 

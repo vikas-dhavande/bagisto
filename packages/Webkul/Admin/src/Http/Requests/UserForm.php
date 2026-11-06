@@ -26,8 +26,8 @@ class UserForm extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'email' => ['required', 'email', Rule::unique('admins', 'email')->ignore($this->id)],
+            'name' => 'required|max:255',
+            'email' => ['required', 'max:255', 'email', Rule::unique('admins', 'email')->ignore($this->id)],
             'password' => 'nullable|min:6|confirmed',
             'password_confirmation' => 'nullable|required_with:password|same:password',
             'status' => 'sometimes',
@@ -44,6 +44,18 @@ class UserForm extends FormRequest
             ],
             'image' => 'array',
             'image.*' => 'mimes:jpeg,jpg,png,gif|max:10000',
+        ];
+    }
+
+    /**
+     * Get the custom attribute names for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'image.*' => trans('admin::app.components.media.images.image'),
         ];
     }
 }

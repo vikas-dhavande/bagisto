@@ -1,4 +1,5 @@
 import { expect, type Page } from "@playwright/test";
+import type { MediaFile } from "@shared/media-files";
 import { BasePage } from "../BasePage";
 
 export type SortOption =
@@ -18,18 +19,28 @@ export class SearchPage extends BasePage {
         return this.page.getByPlaceholder("Search products here");
     }
 
+    private get imageSearchControl() {
+        return this.page
+            .locator('label[for^="v-image-search-"]')
+            .filter({ visible: true });
+    }
+
     private get resultsHeading() {
         return this.page.getByRole("heading", { level: 2, name: /These are results for/ });
     }
 
+    private get pageContent() {
+        return this.page.locator("#main");
+    }
+
     private get productCards() {
-        return this.page.locator("div.group").filter({
-            has: this.page.locator("p.wrap-break-word"),
+        return this.pageContent.locator("div.group").filter({
+            has: this.page.locator("p.wrap-anywhere"),
         });
     }
 
     private productCard(productName: string) {
-        return this.page
+        return this.pageContent
             .locator("div.group")
             .filter({ has: this.page.locator(`p:text-is("${productName}")`) });
     }
@@ -38,6 +49,29 @@ export class SearchPage extends BasePage {
         return this.page.getByRole("button", {
             name: /Sort By|From A-Z|From Z-A|Newest First|Oldest First|Cheapest First|Expensive First/,
         });
+    }
+
+    private readStoredSearchImageUrl(): Promise<string> {
+        return this.page
+            .evaluate(() => localStorage.getItem("searchedImageUrl") ?? "")
+            .catch(() => "");
+    }
+
+    async uploadSearchImage(file: MediaFile): Promise<void> {
+        await this.visit("search");
+
+        await expect(this.imageSearchControl).toBeVisible();
+
+        await this.imageSearchControl.setInputFiles(file);
+    }
+
+    async uploadSearchImageAgain(file: MediaFile): Promise<void> {
+        await Promise.all([
+            this.page.waitForResponse((response) =>
+                response.url().includes("search/upload"),
+            ),
+            this.imageSearchControl.setInputFiles(file),
+        ]);
     }
 
     async search(term: string): Promise<void> {
@@ -68,7 +102,7 @@ export class SearchPage extends BasePage {
     }
 
     async readProductNames(): Promise<string[]> {
-        return (await this.productCards.locator("p.wrap-break-word").allInnerTexts()).map(
+        return (await this.productCards.locator("p.wrap-anywhere").allInnerTexts()).map(
             (text) => text.trim(),
         );
     }
@@ -79,6 +113,32 @@ export class SearchPage extends BasePage {
             .allInnerTexts();
 
         return texts.map((text) => parseFloat(text.replace(/[^0-9.]/g, "")));
+    }
+
+    async expectSearchImageRefused(message: string): Promise<void> {
+        await expect(this.page.getByText(message).first()).toBeVisible();
+    }
+
+    async expectSearchImageStored(): Promise<void> {
+        await expect
+            .poll(() => this.readStoredSearchImageUrl())
+            .toContain("search-images");
+    }
+
+    async expectStoredSearchImageFreeOf(fragments: string[]): Promise<void> {
+        await this.expectSearchImageStored();
+
+        const stored = await this.page.request.get(
+            await this.readStoredSearchImageUrl(),
+        );
+
+        expect(stored.ok()).toBe(true);
+
+        const content = await stored.text();
+
+        for (const fragment of fragments) {
+            expect(content).not.toContain(fragment);
+        }
     }
 
     async expectResultsHeading(term: string): Promise<void> {

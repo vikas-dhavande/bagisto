@@ -1366,6 +1366,7 @@ return [
 
                     'configurable' => [
                         'add-btn' => 'Ongeza Tofauti',
+                        'default' => 'Kawaida',
                         'delete-btn' => 'Futa',
                         'edit-btn' => 'Hariri',
                         'empty-info' => 'Kuunda mchanganyiko mbalimbali wa bidhaa papo hapo.',
@@ -5679,6 +5680,7 @@ return [
                         'info' => 'Chagua hifadhi ambamo faili huhifadhiwa na kutolewa.',
                         'default-driver' => 'Kiendeshi Chaguo-msingi cha Hifadhi',
                         'default-driver-info' => 'Faili zitakazopakiwa kuanzia sasa zitahifadhiwa hapa. Faili zilizokwisha pakiwa hubaki kwenye hifadhi zilimohifadhiwa, kwa hiyo zihamishe kabla ya kubadilisha la sivyo hazitapatikana.',
+                        'incomplete' => ':driver imechaguliwa, lakini mipangilio yake haijakamilika, kwa hiyo faili zinazopakiwa bado hazihifadhiwi humo.',
 
                         'drivers' => [
                             'local' => 'Faili (Hifadhi ya Ndani)',
@@ -6062,7 +6064,8 @@ return [
                 'ai-btn-info' => 'Tengeneza Picha',
                 'allowed-types' => 'png, jpeg, jpg',
                 'image' => 'Picha',
-                'not-allowed-error' => 'Faili za picha pekee (.jpeg, .jpg, .png, ..) ndizo zinazoruhusiwa.',
+                'not-allowed-error' => 'Faili za picha pekee (:types) ndizo zinazoruhusiwa.',
+                'size-limit-error' => 'Faili limezidi ukubwa wa juu wa kupakia wa :size.',
 
                 'ai-generation' => [
                     'apply' => 'Tumia',
@@ -6114,13 +6117,15 @@ return [
                 'add-image' => 'Ongeza Picha',
                 'delete' => 'Futa',
                 'download' => 'Pakua',
+                'not-allowed-error' => 'Faili za :types pekee ndizo zinazoruhusiwa.',
                 'replace' => 'Badilisha',
+                'size-limit-error' => 'Faili limezidi ukubwa wa juu wa kupakia wa :size.',
             ],
 
             'videos' => [
                 'add-video-btn' => 'Ongeza Video',
-                'allowed-types' => 'mp4, webm, mkv',
-                'not-allowed-error' => 'Faili za video pekee (.mp4, .mov, .ogg ..) ndizo zinazoruhusiwa.',
+                'not-allowed-error' => 'Faili za video pekee (:types) ndizo zinazoruhusiwa.',
+                'size-limit-error' => 'Faili limezidi ukubwa wa juu wa kupakia wa :size.',
                 'video' => 'Video',
 
                 'seo' => [

@@ -9,7 +9,7 @@
     >
         <div
             v-if="isOpen"
-            class="fixed inset-0 z-10002 flex items-start justify-center bg-gray-900/40 p-4 pt-[10vh] backdrop-blur-[2px] dark:bg-gray-950/60"
+            class="fixed inset-0 z-80 flex items-start justify-center bg-gray-900/40 p-4 pt-[10vh] backdrop-blur-[2px] dark:bg-gray-950/60"
             @click.self="close"
         >
             <div class="flex max-h-[70vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl border bg-white shadow-2xl dark:border-gray-800 dark:bg-gray-900">
@@ -20,7 +20,7 @@
                 >
                     <button
                         type="button"
-                        class="flex shrink-0 items-center gap-1 rounded px-1.5 py-1 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-950"
+                        class="flex shrink-0 items-center gap-1 rounded-sm px-1.5 py-1 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-950"
                         @click="back"
                     >
                         <span class="text-sm leading-none">&lsaquo;</span>
@@ -32,7 +32,7 @@
 
                         <button
                             type="button"
-                            class="max-w-40 truncate rounded px-1 py-1 hover:bg-gray-100 dark:hover:bg-gray-950"
+                            class="max-w-40 truncate rounded-sm px-1 py-1 hover:bg-gray-100 dark:hover:bg-gray-950"
                             :class="index === levels.length - 1
                                 ? 'font-medium text-gray-800 dark:text-white'
                                 : 'text-gray-500 dark:text-gray-400'"
@@ -64,7 +64,7 @@
                     />
 
                     <span
-                        class="shrink-0 rounded border px-1.5 py-0.5 text-xs text-gray-500 dark:border-gray-700 dark:text-gray-400"
+                        class="shrink-0 rounded-sm border px-1.5 py-0.5 text-xs text-gray-500 dark:border-gray-700 dark:text-gray-400"
                         @click="close"
                     >
                         @lang('admin::app.command-palette.esc')
@@ -122,7 +122,7 @@
 
                                 <kbd
                                     v-else-if="item.index === cursor"
-                                    class="flex h-5 shrink-0 items-center rounded border px-1.5 font-sans text-xs leading-none text-gray-500 dark:border-gray-700 dark:text-gray-400"
+                                    class="flex h-5 shrink-0 items-center rounded-sm border px-1.5 font-sans text-xs leading-none text-gray-500 dark:border-gray-700 dark:text-gray-400"
                                 >&crarr;</kbd>
                             </a>
                         </div>
@@ -159,18 +159,18 @@
                 <!-- Hints -->
                 <div class="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-1 border-t px-4 py-2 text-xs text-gray-500 dark:border-gray-800 dark:text-gray-400">
                     <span class="flex items-center gap-1">
-                        <kbd class="inline-flex h-4 items-center rounded border px-1 font-sans leading-none dark:border-gray-700">&uarr;</kbd>
-                        <kbd class="inline-flex h-4 items-center rounded border px-1 font-sans leading-none dark:border-gray-700">&darr;</kbd>
+                        <kbd class="inline-flex h-4 items-center rounded-sm border px-1 font-sans leading-none dark:border-gray-700">&uarr;</kbd>
+                        <kbd class="inline-flex h-4 items-center rounded-sm border px-1 font-sans leading-none dark:border-gray-700">&darr;</kbd>
                         @lang('admin::app.command-palette.navigate')
                     </span>
 
                     <span class="flex items-center gap-1">
-                        <kbd class="inline-flex h-4 items-center rounded border px-1 font-sans leading-none dark:border-gray-700">&crarr;</kbd>
+                        <kbd class="inline-flex h-4 items-center rounded-sm border px-1 font-sans leading-none dark:border-gray-700">&crarr;</kbd>
                         @lang('admin::app.command-palette.select')
                     </span>
 
                     <span class="flex items-center gap-1">
-                        <kbd class="inline-flex h-4 items-center rounded border px-1 font-sans leading-none dark:border-gray-700">esc</kbd>
+                        <kbd class="inline-flex h-4 items-center rounded-sm border px-1 font-sans leading-none dark:border-gray-700">esc</kbd>
                         @lang('admin::app.command-palette.close')
                     </span>
                 </div>

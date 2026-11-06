@@ -13,7 +13,7 @@
 
             @if (core()->getConfigData('general.gdpr.cookie.enabled'))
                 <div
-                    class="js-cookie-consent fixed z-999 mx-4 box-border hidden min-h-5 overflow-hidden rounded-sm bg-black/90 p-7"
+                    class="js-cookie-consent fixed z-50 mx-4 box-border hidden min-h-5 overflow-hidden rounded-sm bg-black/90 p-7"
                     :class="getPositionClasses(position)"
                 >
                     <div class="cookieTitle">
@@ -95,13 +95,13 @@
             methods: {
                 getPositionClasses(position) {
                     const positionClasses = {
-                        'center': 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[420px]',
-                        'top-center': 'top-4 left-1/2 -translate-x-1/2 max-w-[420px]',
-                        'bottom-center': 'bottom-4 left-1/2 -translate-x-1/2 max-w-[420px]',
-                        'bottom-right': 'bottom-4 right-0 sm:max-w-[420px]',
-                        'bottom-left': 'bottom-4 left-0 sm:max-w-[420px]',
-                        'top-right': 'top-4 right-0 sm:max-w-[420px]',
-                        'top-left': 'top-4 left-0 sm:max-w-[420px]',
+                        'center': 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-105',
+                        'top-center': 'top-4 left-1/2 -translate-x-1/2 max-w-105',
+                        'bottom-center': 'bottom-4 left-1/2 -translate-x-1/2 max-w-105',
+                        'bottom-right': 'bottom-4 right-0 sm:max-w-105',
+                        'bottom-left': 'bottom-4 left-0 sm:max-w-105',
+                        'top-right': 'top-4 right-0 sm:max-w-105',
+                        'top-left': 'top-4 left-0 sm:max-w-105',
                     };
 
                     return positionClasses[position] || positionClasses['center'];

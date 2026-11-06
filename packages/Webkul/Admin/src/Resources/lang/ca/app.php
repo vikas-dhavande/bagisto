@@ -1366,6 +1366,7 @@ return [
 
                     'configurable' => [
                         'add-btn' => 'Afegir variant',
+                        'default' => 'Per Defecte',
                         'delete-btn' => 'Eliminar',
                         'edit-btn' => 'Editar',
                         'empty-info' => 'Per crear diverses combinacions de productes sobre la marxa.',
@@ -5679,6 +5680,7 @@ return [
                         'info' => 'Trieu l\'emmagatzematge on es desen els fitxers i des d\'on se serveixen.',
                         'default-driver' => 'Controlador d\'emmagatzematge per defecte',
                         'default-driver-info' => 'Els fitxers pujats a partir d\'ara es desaran aquí. Els fitxers ja pujats es queden a l\'emmagatzematge anterior: copieu-los abans de canviar o no es trobaran.',
+                        'incomplete' => 'S\'ha seleccionat :driver, però la seva configuració és incompleta, de manera que els fitxers pujats encara no s\'hi desen.',
 
                         'drivers' => [
                             'local' => 'Fitxer (emmagatzematge local)',
@@ -6062,7 +6064,8 @@ return [
                 'ai-btn-info' => 'Generar Imatge',
                 'allowed-types' => 'png, jpeg, jpg',
                 'image' => 'Imatge',
-                'not-allowed-error' => 'Només es permeten arxius d\'imatge (.jpeg, .jpg, .png, ..)',
+                'not-allowed-error' => 'Només es permeten arxius d\'imatge (:types.',
+                'size-limit-error' => 'El fitxer supera la mida màxima de pujada de :size.',
 
                 'ai-generation' => [
                     'apply' => 'Aplicar',
@@ -6114,13 +6117,15 @@ return [
                 'add-image' => 'Afegir Imatge',
                 'delete' => 'Esborrar',
                 'download' => 'Descarregar',
+                'not-allowed-error' => 'Només es permeten fitxers :types.',
                 'replace' => 'Substituir',
+                'size-limit-error' => 'El fitxer supera la mida màxima de pujada de :size.',
             ],
 
             'videos' => [
                 'add-video-btn' => 'Afegir Vídeo',
-                'allowed-types' => 'mp4, webm, mkv',
-                'not-allowed-error' => 'Només es permeten arxius de vídeo (.mp4, .mov, .ogg ..).',
+                'not-allowed-error' => 'Només es permeten arxius de vídeo (:types).',
+                'size-limit-error' => 'El fitxer supera la mida màxima de pujada de :size.',
                 'video' => 'Vídeo',
 
                 'seo' => [

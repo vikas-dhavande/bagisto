@@ -68,7 +68,7 @@
                     <input
                         type="hidden"
                         :name="name"
-                        v-if="! uploadedFiles.isPicked"
+                        v-if="! hasPickedFiles"
                     />
 
                     <v-field
@@ -85,7 +85,7 @@
                 </label>
             </div>
 
-            <div 
+            <div
                 class="flex items-center"
                 v-if="isMultiple"
             >
@@ -141,6 +141,14 @@
                     </li>
                 </ul>
             </div>
+
+            <p
+                class="text-red-500 text-xs italic"
+                data-field-error
+                v-if="fieldError"
+                v-text="fieldError"
+            >
+            </p>
         </div>
     </script>
 
@@ -164,8 +172,13 @@
                 },
 
                 acceptedTypes: {
-                    type: String, 
+                    type: String,
                     default: 'image/*, video/*,'
+                },
+
+                maxSize: {
+                    type: [Number, String],
+                    default: 0,
                 },
 
                 label: {
@@ -187,6 +200,15 @@
                     type: String,
                     default: '200px',
                 },
+
+                errors: {
+                    type: Object,
+                    default: () => ({}),
+                },
+
+                setFieldError: {
+                    type: Function,
+                },
             },
 
             data() {
@@ -196,7 +218,93 @@
                     isDragOver: false,
 
                     appliedRules: '',
+
+                    clientError: '',
                 };
+            },
+
+            computed: {
+                /**
+                 * The keys of the form's errors that belong to one of this field's files.
+                 */
+                errorKeys() {
+                    const toPath = key => key.replace(/\[\]$/, '').replace(/\[(.*?)\]/g, '.$1');
+
+                    const field = toPath(this.name) + '.';
+
+                    return Object.keys(this.errors).filter(key => toPath(key).startsWith(field));
+                },
+
+                /**
+                 * The first error the form holds for one of this field's files.
+                 */
+                errorMessage() {
+                    return this.errors[this.errorKeys[0]];
+                },
+
+                /**
+                 * The error shown under the field, the server's for one of its files before the one found on picking.
+                 */
+                fieldError() {
+                    return this.errorMessage ?? this.clientError;
+                },
+
+                /**
+                 * Whether a file is picked, in which case the empty field must go, because
+                 * a value posted under the same key hides the file from validation.
+                 */
+                hasPickedFiles() {
+                    return this.isMultiple
+                        ? this.uploadedFiles.length > 0
+                        : this.uploadedFiles.isPicked;
+                },
+
+                /**
+                 * The extensions the field accepts, written for display from its accepted types.
+                 */
+                acceptedExtensions() {
+                    const subtypeExtensions = {
+                        'svg+xml': 'svg',
+                        'quicktime': 'mov',
+                        'x-icon': 'ico',
+                        'vnd.microsoft.icon': 'ico',
+                    };
+
+                    const types = (this.acceptedTypes || '')
+                        .split(',')
+                        .map(type => type.trim().toLowerCase())
+                        .filter(Boolean);
+
+                    const extensions = types
+                        .filter(type => ! type.endsWith('*'))
+                        .map(type => {
+                            if (! type.includes('/')) {
+                                return type.replace(/^\.?/, '.');
+                            }
+
+                            const subtype = type.split('/').pop();
+
+                            return '.' + (subtypeExtensions[subtype] ?? subtype);
+                        });
+
+                    const labels = extensions.length
+                        ? extensions
+                        : types.map(type => type.split('/').shift()).filter(type => type !== '*');
+
+                    return [...new Set(labels)].join(', ');
+                },
+            },
+
+            watch: {
+                fieldError: {
+                    immediate: true,
+
+                    handler(message) {
+                        if (message) {
+                            this.focusError();
+                        }
+                    },
+                },
             },
 
             created() {
@@ -213,15 +321,27 @@
             },
 
             methods: {
+                /**
+                 * Add the picked files to the field, leaving out any of a type or size it does not accept.
+                 */
                 onFileChange(event) {
                     let files = event.target.files;
                     let hasInvalid = false;
+                    let hasOversize = false;
+
+                    this.clearErrors();
 
                     for (let i = 0; i < files.length; i++) {
                         let file = files[i];
 
                         if (! this.isAcceptedType(file)) {
                             hasInvalid = true;
+
+                            continue;
+                        }
+
+                        if (this.exceedsMaxSize(file)) {
+                            hasOversize = true;
 
                             continue;
                         }
@@ -251,19 +371,40 @@
 
                     if (hasInvalid) {
                         this.notifyInvalidType();
+                    }
 
+                    if (hasOversize) {
+                        this.notifySizeLimit();
+                    }
+
+                    if (
+                        hasInvalid
+                        || hasOversize
+                    ) {
                         event.target.value = '';
                     }
                 },
 
+                /**
+                 * Add the dropped files to the field, leaving out any of a type or size it does not accept.
+                 */
                 handleDroppedFiles(files) {
                     let hasInvalid = false;
+                    let hasOversize = false;
+
+                    this.clearErrors();
 
                     for (let i = 0; i < files.length; i++) {
                         let file = files[i];
 
                         if (! this.isAcceptedType(file)) {
                             hasInvalid = true;
+
+                            continue;
+                        }
+
+                        if (this.exceedsMaxSize(file)) {
+                            hasOversize = true;
 
                             continue;
                         }
@@ -293,32 +434,93 @@
                     if (hasInvalid) {
                         this.notifyInvalidType();
                     }
+
+                    if (hasOversize) {
+                        this.notifySizeLimit();
+                    }
                 },
 
+                /**
+                 * Whether the file is larger than the field, or PHP, accepts.
+                 */
+                exceedsMaxSize(file) {
+                    const limit = this.sizeLimitKilobytes();
+
+                    return limit > 0
+                        && file.size > limit * 1024;
+                },
+
+                /**
+                 * The largest file the field takes in kilobytes, the lower of its own limit and PHP's.
+                 */
+                sizeLimitKilobytes() {
+                    const limits = [{{ core()->getMaxUploadSize() }}, Number(this.maxSize) || 0].filter(limit => limit > 0);
+
+                    return limits.length ? Math.min(...limits) : 0;
+                },
+
+                /**
+                 * The size limit written for the shopper, in megabytes from one megabyte up.
+                 */
+                formattedSizeLimit() {
+                    const kilobytes = this.sizeLimitKilobytes();
+
+                    return kilobytes >= 1024
+                        ? (Math.round((kilobytes / 1024) * 10) / 10) + ' MB'
+                        : kilobytes + ' KB';
+                },
+
+                /**
+                 * Whether the field accepts a file of this type.
+                 */
                 isAcceptedType(file) {
                     const types = (this.acceptedTypes || '')
                         .split(',')
-                        .map(type => type.trim())
+                        .map(type => type.trim().toLowerCase())
                         .filter(Boolean);
 
-                    if (! types.length || types.includes('*') || types.includes('*/*')) {
+                    if (
+                        ! types.length
+                        || types.includes('*')
+                        || types.includes('*/*')
+                    ) {
                         return true;
                     }
 
-                    return types.some(type =>
-                        type.endsWith('/*')
-                            ? file.type.startsWith(type.slice(0, -1))
-                            : file.type === type
-                    );
-                },
+                    const mime = (file.type || '').toLowerCase();
 
-                notifyInvalidType() {
-                    this.$emitter.emit('add-flash', {
-                        type: 'warning',
-                        message: "@lang('shop::app.components.media.index.invalid-file-type')",
+                    const extension = (file.name || '').split('.').pop().toLowerCase();
+
+                    return types.some(type => {
+                        if (type.endsWith('/*')) {
+                            return mime.startsWith(type.slice(0, -1));
+                        }
+
+                        if (type.includes('/')) {
+                            return mime === type;
+                        }
+
+                        return (type.startsWith('.') ? type.slice(1) : type) === extension;
                     });
                 },
 
+                /**
+                 * Tell the shopper a file was left out for its type.
+                 */
+                notifyInvalidType() {
+                    this.clientError = "@lang('shop::app.components.media.index.invalid-file-type')".replace(':types', this.acceptedExtensions);
+                },
+
+                /**
+                 * Tell the shopper a file was left out for its size.
+                 */
+                notifySizeLimit() {
+                    this.clientError = "@lang('shop::app.components.media.index.size-limit-error')".replace(':size', this.formattedSizeLimit());
+                },
+
+                /**
+                 * Whether the file is an image, going by its name.
+                 */
                 isImage(file) {
                     if (! file.name) {
                         return;
@@ -327,18 +529,27 @@
                     return file.name.match(/\.(jpg|jpeg|png|gif)$/i);
                 },
 
+                /**
+                 * Mark the field as having files dragged over it.
+                 */
                 onDragOver(event) {
                     event.preventDefault();
 
                     this.isDragOver = true;
                 },
 
+                /**
+                 * Clear the mark once the files are dragged away.
+                 */
                 onDragLeave(event) {
                     event.preventDefault();
 
                     this.isDragOver = false;
                 },
                 
+                /**
+                 * Take in the files dropped on the field.
+                 */
                 onDrop(event) {
                     event.preventDefault();
 
@@ -349,7 +560,12 @@
                     this.handleDroppedFiles(files);
                 },
 
+                /**
+                 * Remove a file from the field.
+                 */
                 remove(index) {
+                    this.clearErrors();
+
                     if (! this.isMultiple) {
                         this.uploadedFiles = [];
 
@@ -359,6 +575,37 @@
                     }
 
                     this.uploadedFiles.splice(index, 1);
+                },
+
+                /**
+                 * Forget the errors of this field's files, which the form otherwise keeps until the page reloads.
+                 */
+                clearErrors() {
+                    this.clientError = '';
+
+                    this.errorKeys.forEach(key => this.setFieldError?.(key, undefined));
+                },
+
+                /**
+                 * Bring this field's error into view, but only when no field before it holds one.
+                 */
+                focusError() {
+                    this.$nextTick(() => {
+                        const errorElement = this.$el?.querySelector?.('[data-field-error]');
+
+                        if (! errorElement) {
+                            return;
+                        }
+
+                        if (document.querySelector('[data-field-error]') !== errorElement) {
+                            return;
+                        }
+
+                        errorElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center',
+                        });
+                    });
                 },
             },
         });

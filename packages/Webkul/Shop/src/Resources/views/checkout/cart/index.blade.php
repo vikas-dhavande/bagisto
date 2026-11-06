@@ -20,7 +20,7 @@
     <!-- Page Header -->
     <div class="flex flex-wrap">
         <div class="flex w-full justify-between border border-b border-l-0 border-r-0 border-t-0 px-15 py-4 max-lg:px-8 max-md:px-4">
-            <div class="flex items-center gap-x-14 max-[1180px]:gap-x-9">
+            <div class="flex items-center gap-x-14 max-1180:gap-x-9">
                 {!! view_render_event('bagisto.shop.checkout.cart.logo.before') !!}
 
                 <a
@@ -218,7 +218,7 @@
                                             {!! view_render_event('bagisto.shop.checkout.cart.item_name.before') !!}
 
                                             <a :href="'{{ route('shop.product_or_category.index', ':slug') }}'.replace(':slug', item.product_url_key)">
-                                                <p class="text-base font-medium max-sm:text-sm">
+                                                <p class="text-base font-medium wrap-anywhere max-sm:text-sm">
                                                     @{{ item.name }}
                                                 </p>
                                             </a>
@@ -322,7 +322,7 @@
                                                 <x-shop::quantity-changer
                                                     v-if="item.can_change_qty"
                                                     ::key="'qty-' + item.id + '-' + refreshKey"
-                                                    class="flex max-w-max items-center gap-x-2.5 rounded-[54px] border border-navyBlue px-3.5 py-1.5 max-md:gap-x-1.5 max-md:px-1 max-md:py-0.5"
+                                                    class="flex max-w-max items-center gap-x-2.5 rounded-full border border-navyBlue px-3.5 py-1.5 max-md:gap-x-1.5 max-md:px-1 max-md:py-0.5"
                                                     name="quantity"
                                                     ::value="item?.quantity"
                                                     :removable="true"

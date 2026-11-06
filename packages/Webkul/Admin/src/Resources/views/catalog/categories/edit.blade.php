@@ -196,6 +196,7 @@
 
                             <x-admin::media.images
                                 name="logo_path"
+                                accepted-types=".bmp,.jpeg,.jpg,.png,.webp"
                                 meta-name="logo_meta"
                                 enable-seo="true"
                                 :uploaded-images="$category->logo_path ? [[
@@ -219,6 +220,7 @@
 
                             <x-admin::media.images
                                 name="banner_path"
+                                accepted-types=".bmp,.jpeg,.jpg,.png,.webp"
                                 meta-name="banner_meta"
                                 enable-seo="true"
                                 :uploaded-images="$category->banner_path ? [[
@@ -295,8 +297,6 @@
                             </v-field>
 
                             <x-admin::form.control-group.error control-name="{{$currentLocale->code}}[slug]" />
-
-                            <x-admin::form.control-group.error control-name="{{$currentLocale->code}}.slug" />
                         </x-admin::form.control-group>
 
                         <!-- Meta Keywords -->
@@ -414,7 +414,7 @@
                                 name="status"
                                 value="1"
                                 :label="trans('admin::app.catalog.categories.edit.visible-in-menu')"
-                                :checked="(boolean) $selectedValue"
+                                :checked="(bool) $selectedValue"
                             />
                         </x-admin::form.control-group>
                     </x-slot>

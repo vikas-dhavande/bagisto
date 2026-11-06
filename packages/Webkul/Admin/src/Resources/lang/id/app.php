@@ -1366,6 +1366,7 @@ return [
 
                     'configurable' => [
                         'add-btn' => 'Tambah Varian',
+                        'default' => 'Default',
                         'delete-btn' => 'Hapus',
                         'edit-btn' => 'Edit',
                         'empty-info' => 'Untuk membuat berbagai kombinasi produk dengan cepat.',
@@ -5679,6 +5680,7 @@ return [
                         'info' => 'Pilih penyimpanan tempat berkas disimpan dan disajikan.',
                         'default-driver' => 'Driver Penyimpanan Bawaan',
                         'default-driver-info' => 'Berkas yang diunggah mulai sekarang akan disimpan di sini. Berkas yang sudah diunggah tetap berada di penyimpanan sebelumnya, jadi salin dulu sebelum berpindah atau berkas tidak akan ditemukan.',
+                        'incomplete' => ':driver dipilih, tetapi pengaturannya belum lengkap, jadi berkas yang diunggah belum disimpan di sana.',
 
                         'drivers' => [
                             'local' => 'Berkas (Penyimpanan Lokal)',
@@ -6062,7 +6064,8 @@ return [
                 'ai-btn-info' => 'Hasilkan Gambar',
                 'allowed-types' => 'png, jpeg, jpg',
                 'image' => 'Gambar',
-                'not-allowed-error' => 'Hanya file gambar (.jpeg, .jpg, .png, dll) yang diperbolehkan.',
+                'not-allowed-error' => 'Hanya file gambar (:types) yang diperbolehkan.',
+                'size-limit-error' => 'File melebihi ukuran unggah maksimum :size.',
 
                 'ai-generation' => [
                     'apply' => 'Terapkan',
@@ -6114,13 +6117,15 @@ return [
                 'add-image' => 'Tambah Gambar',
                 'delete' => 'Hapus',
                 'download' => 'Unduh',
+                'not-allowed-error' => 'Hanya file :types yang diperbolehkan.',
                 'replace' => 'Ganti',
+                'size-limit-error' => 'File melebihi ukuran unggah maksimum :size.',
             ],
 
             'videos' => [
                 'add-video-btn' => 'Tambah Video',
-                'allowed-types' => 'mp4, webm, mkv',
-                'not-allowed-error' => 'Hanya file video (.mp4, .mov, .ogg, dll) yang diperbolehkan.',
+                'not-allowed-error' => 'Hanya file video (:types) yang diperbolehkan.',
+                'size-limit-error' => 'File melebihi ukuran unggah maksimum :size.',
                 'video' => 'Video',
 
                 'seo' => [

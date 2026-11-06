@@ -14,7 +14,7 @@
 
 <!-- Mobile Filters Navigation -->
 <div
-    class="fixed bottom-0 z-10 grid w-full max-w-full grid-cols-[1fr_auto_1fr] items-center justify-items-center border-t border-zinc-200 bg-white px-5 ltr:left-0 rtl:right-0"
+    class="fixed bottom-0 z-5 grid has-[.z-70:not([style*='display:_none'])]:z-60 w-full max-w-full grid-cols-[1fr_auto_1fr] items-center justify-items-center border-t border-zinc-200 bg-white px-5 ltr:left-0 rtl:right-0"
     v-if="isMobile"
 >
     <!-- Filter Drawer -->
@@ -224,7 +224,7 @@
                                     />
 
                                     <label
-                                        class="icon-uncheck peer-checked:icon-check-box cursor-pointer text-2xl text-navyBlue peer-checked:text-navyBlue max-sm:text-xl peer-focus-visible:ring-2 peer-focus-visible:ring-navyBlue peer-focus-visible:ring-offset-2 rounded"
+                                        class="icon-uncheck peer-checked:icon-check-box cursor-pointer text-2xl text-navyBlue peer-checked:text-navyBlue max-sm:text-xl peer-focus-visible:ring-2 peer-focus-visible:ring-navyBlue peer-focus-visible:ring-offset-2 rounded-sm"
                                         :for="`filter_${filter.id}_option_${option.id}`"
                                     >
                                     </label>
@@ -252,7 +252,7 @@
                                 v-else
                             >
                                 <div class="flex flex-col items-center justify-between">
-                                    <div class="shimmer h-5 w-[50%] self-end rounded-sm"></div>
+                                    <div class="shimmer h-5 w-1/2 self-end rounded-sm"></div>
                                 </div>
 
                                 <div class="z-10 grid gap-1 rounded-lg bg-white">

@@ -1366,6 +1366,7 @@ return [
 
                     'configurable' => [
                         'add-btn' => 'Ajouter une variante',
+                        'default' => 'Par défaut',
                         'delete-btn' => 'Supprimer',
                         'edit-btn' => 'Modifier',
                         'empty-info' => 'Pour créer diverses combinaisons de produits en un clin d\'œil.',
@@ -5679,6 +5680,7 @@ return [
                         'info' => 'Choisissez le stockage dans lequel les fichiers sont enregistrés et depuis lequel ils sont servis.',
                         'default-driver' => 'Pilote de stockage par défaut',
                         'default-driver-info' => 'Les fichiers téléversés à partir de maintenant seront enregistrés ici. Les fichiers déjà téléversés restent sur le stockage précédent : copiez-les avant de changer, sinon ils seront introuvables.',
+                        'incomplete' => ':driver est sélectionné, mais ses paramètres sont incomplets : les fichiers téléversés n\'y sont donc pas encore enregistrés.',
 
                         'drivers' => [
                             'local' => 'Fichier (stockage local)',
@@ -6062,7 +6064,8 @@ return [
                 'ai-btn-info' => 'Générer une Image',
                 'allowed-types' => 'png, jpeg, jpg',
                 'image' => 'Image',
-                'not-allowed-error' => 'Seuls les fichiers d\'images (.jpeg, .jpg, .png, ..) sont autorisés.',
+                'not-allowed-error' => 'Seuls les fichiers d\'images (:types) sont autorisés.',
+                'size-limit-error' => 'Le fichier dépasse la taille maximale de téléversement de :size.',
 
                 'ai-generation' => [
                     'apply' => 'Appliquer',
@@ -6114,13 +6117,15 @@ return [
                 'add-image' => 'Ajouter une image',
                 'delete' => 'Supprimer',
                 'download' => 'Télécharger',
+                'not-allowed-error' => 'Seuls les fichiers :types sont autorisés.',
                 'replace' => 'Remplacer',
+                'size-limit-error' => 'Le fichier dépasse la taille maximale de téléversement de :size.',
             ],
 
             'videos' => [
                 'add-video-btn' => 'Ajouter une vidéo',
-                'allowed-types' => 'mp4, webm, mkv',
-                'not-allowed-error' => 'Seuls les fichiers vidéo (.mp4, .mov, .ogg ..) sont autorisés.',
+                'not-allowed-error' => 'Seuls les fichiers vidéo (:types) sont autorisés.',
+                'size-limit-error' => 'Le fichier dépasse la taille maximale de téléversement de :size.',
                 'video' => 'Vidéo',
 
                 'seo' => [

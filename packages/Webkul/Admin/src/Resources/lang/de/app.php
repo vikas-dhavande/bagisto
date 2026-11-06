@@ -1366,6 +1366,7 @@ return [
 
                     'configurable' => [
                         'add-btn' => 'Variante hinzufügen',
+                        'default' => 'Standard',
                         'delete-btn' => 'Löschen',
                         'edit-btn' => 'Bearbeiten',
                         'empty-info' => 'Um verschiedene Kombinationen von Produkten zu erstellen.',
@@ -5679,6 +5680,7 @@ return [
                         'info' => 'Wählen Sie den Speicher, in dem Dateien abgelegt und von dem sie ausgeliefert werden.',
                         'default-driver' => 'Standard-Speichertreiber',
                         'default-driver-info' => 'Ab sofort hochgeladene Dateien werden hier gespeichert. Bereits hochgeladene Dateien verbleiben auf dem bisherigen Speicher. Kopieren Sie diese vor dem Wechsel, sonst werden sie nicht gefunden.',
+                        'incomplete' => ':driver ist ausgewählt, aber die Einstellungen sind unvollständig, daher werden hochgeladene Dateien noch nicht dort gespeichert.',
 
                         'drivers' => [
                             'local' => 'Datei (Lokaler Speicher)',
@@ -6062,7 +6064,8 @@ return [
                 'ai-btn-info' => 'Bild generieren',
                 'allowed-types' => 'png, jpeg, jpg',
                 'image' => 'Bild',
-                'not-allowed-error' => 'Nur Bilddateien (.jpeg, .jpg, .png, ..) sind erlaubt.',
+                'not-allowed-error' => 'Nur Bilddateien (:types) sind erlaubt.',
+                'size-limit-error' => 'Die Datei überschreitet die maximale Uploadgröße von :size.',
 
                 'ai-generation' => [
                     'apply' => 'Anwenden',
@@ -6114,13 +6117,15 @@ return [
                 'add-image' => 'Bild hinzufügen',
                 'delete' => 'Löschen',
                 'download' => 'Herunterladen',
+                'not-allowed-error' => 'Nur :types-Dateien sind erlaubt.',
                 'replace' => 'Ersetzen',
+                'size-limit-error' => 'Die Datei überschreitet die maximale Uploadgröße von :size.',
             ],
 
             'videos' => [
                 'add-video-btn' => 'Video hinzufügen',
-                'allowed-types' => 'mp4, webm, mkv',
-                'not-allowed-error' => 'Nur Videodateien (.mp4, .mov, .ogg ..) sind erlaubt.',
+                'not-allowed-error' => 'Nur Videodateien (:types) sind erlaubt.',
+                'size-limit-error' => 'Die Datei überschreitet die maximale Uploadgröße von :size.',
                 'video' => 'Video',
 
                 'seo' => [

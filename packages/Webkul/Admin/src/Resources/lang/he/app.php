@@ -1366,6 +1366,7 @@ return [
 
                     'configurable' => [
                         'add-btn' => 'הוסף נציג',
+                        'default' => 'ברירת מחדל',
                         'delete-btn' => 'מחק',
                         'edit-btn' => 'ערוך',
                         'empty-info' => 'כדי ליצור שילובים שונים של מוצר בצעדה.',
@@ -5679,6 +5680,7 @@ return [
                         'info' => 'בחרו את האחסון שאליו הקבצים נשמרים וממנו הם מוגשים.',
                         'default-driver' => 'מנהל התקן אחסון ברירת מחדל',
                         'default-driver-info' => 'קבצים שיועלו מעכשיו יישמרו כאן. קבצים שכבר הועלו יישארו באחסון הקודם, לכן העתיקו אותם לפני המעבר אחרת לא יימצאו.',
+                        'incomplete' => ':driver נבחר, אך ההגדרות שלו אינן שלמות, ולכן קבצים שהועלו עדיין אינם נשמרים בו.',
 
                         'drivers' => [
                             'local' => 'קובץ (אחסון מקומי)',
@@ -6062,7 +6064,8 @@ return [
                 'ai-btn-info' => 'יצירת תמונה',
                 'allowed-types' => 'png, jpeg, jpg',
                 'image' => 'תמונה',
-                'not-allowed-error' => 'ניתן להעלות רק קבצי תמונה (.jpeg, .jpg, .png, ..)',
+                'not-allowed-error' => 'ניתן להעלות רק קבצי תמונה (:types.',
+                'size-limit-error' => 'הקובץ חורג מגודל ההעלאה המרבי של :size.',
 
                 'ai-generation' => [
                     'apply' => 'החל',
@@ -6114,13 +6117,15 @@ return [
                 'add-image' => 'הוסף תמונה',
                 'delete' => 'מחק',
                 'download' => 'הורדה',
+                'not-allowed-error' => 'ניתן להעלות רק קבצי :types.',
                 'replace' => 'החלפה',
+                'size-limit-error' => 'הקובץ חורג מגודל ההעלאה המרבי של :size.',
             ],
 
             'videos' => [
                 'add-video-btn' => 'הוסף וידאו',
-                'allowed-types' => 'mp4, webm, mkv',
-                'not-allowed-error' => 'ניתן להעלות רק קבצי וידאו (.mp4, .mov, .ogg ..)',
+                'not-allowed-error' => 'ניתן להעלות רק קבצי וידאו (:types.',
+                'size-limit-error' => 'הקובץ חורג מגודל ההעלאה המרבי של :size.',
                 'video' => 'וידאו',
 
                 'seo' => [

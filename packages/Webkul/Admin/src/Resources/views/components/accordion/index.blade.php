@@ -2,7 +2,7 @@
     'isActive' => true,
 ])
 
-<div {{ $attributes->merge(['class' => 'box-shadow rounded bg-white dark:bg-gray-900']) }}>
+<div {{ $attributes->merge(['class' => 'box-shadow rounded-sm bg-white dark:bg-gray-900']) }}>
     <v-accordion
         is-active="{{ $isActive }}"
         {{ $attributes }}
@@ -26,7 +26,7 @@
         @isset($content)
             <template v-slot:content="{ isOpen }">
                 <div
-                    {{ $content->attributes->merge(['class' => 'px-4 pb-4']) }}
+                    {{ $content->attributes->merge(['class' => 'px-4 pb-4 wrap-anywhere']) }}
                     v-show="isOpen"
                 >
                     {{ $content }}
@@ -74,6 +74,9 @@
             },
 
             methods: {
+                /**
+                 * Open or close the accordion, telling the parent which it now is.
+                 */
                 toggle() {
                     this.isOpen = ! this.isOpen;
 

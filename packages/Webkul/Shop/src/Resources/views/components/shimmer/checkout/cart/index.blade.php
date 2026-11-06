@@ -37,7 +37,7 @@
                         </div>
 
                         <div class="flex items-center gap-2.5">
-                            <div class="shimmer h-9 w-27 rounded-[54px] max-sm:h-7.5 max-sm:w-20"></div>
+                            <div class="shimmer h-9 w-27 rounded-full max-sm:h-7.5 max-sm:w-20"></div>
 
                             <div class="shimmer hidden h-6 w-12 max-sm:block"></div>
                         </div>
@@ -70,27 +70,27 @@
 
         <div class="mt-6 grid gap-4">
             <div class="flex justify-between text-right">
-                <p class="shimmer h-6 w-[30%]"></p>
+                <p class="shimmer h-6 w-3/10"></p>
 
-                <p class="shimmer h-6 w-[30%]"></p>
+                <p class="shimmer h-6 w-3/10"></p>
             </div>
 
             <div class="flex justify-between text-right">
                 <p class="shimmer h-6 w-2/5"></p>
 
-                <p class="shimmer h-6 w-[36%]"></p>
+                <p class="shimmer h-6 w-9/25"></p>
             </div>
 
             <div class="flex justify-between text-right">
-                <p class="shimmer h-6 w-[30%]"></p>
+                <p class="shimmer h-6 w-3/10"></p>
 
-                <p class="shimmer h-6 w-[31%]"></p>
+                <p class="shimmer h-6 w-31/100"></p>
             </div>
 
             <div class="flex justify-between text-right">
-                <p class="shimmer h-6 w-[33%]"></p>
+                <p class="shimmer h-6 w-33/100"></p>
                 
-                <p class="shimmer h-6 w-[38%]"></p>
+                <p class="shimmer h-6 w-19/50"></p>
             </div>
             <div class="shimmer mt-4 block h-11.5 w-3/5 place-self-end rounded-2xl"></div>
         </div>

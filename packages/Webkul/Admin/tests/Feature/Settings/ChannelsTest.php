@@ -76,6 +76,20 @@ it('should store a newly created channel', function () {
     ]);
 });
 
+it('should name the logo and favicon by their labels when they are not images on store', function () {
+    $this->loginAsAdmin();
+
+    postJson(route('admin.settings.channels.store'), [
+        'logo' => ['image_0' => UploadedFile::fake()->image('logo.php')],
+        'favicon' => ['image_0' => UploadedFile::fake()->image('favicon.php')],
+    ])
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors([
+            'logo.image_0' => 'The Logo field',
+            'favicon.image_0' => 'The Favicon field',
+        ]);
+});
+
 it('should fail validation when required fields are missing on store', function () {
     $this->loginAsAdmin();
 
@@ -146,6 +160,22 @@ it('should update an existing channel', function () {
     ]);
 });
 
+it('should name the logo and favicon by their labels when they are not images on update', function () {
+    $channel = Channel::factory()->create();
+
+    $this->loginAsAdmin();
+
+    putJson(route('admin.settings.channels.update', $channel->id), [
+        'logo' => ['image_0' => UploadedFile::fake()->image('logo.php')],
+        'favicon' => ['image_0' => UploadedFile::fake()->image('favicon.php')],
+    ])
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors([
+            'logo.image_0' => 'The Logo field',
+            'favicon.image_0' => 'The Favicon field',
+        ]);
+});
+
 it('should fail validation when required fields are missing on update', function () {
     $channel = Channel::factory()->create();
 
@@ -166,7 +196,34 @@ it('should fail validation when required fields are missing on update', function
         ->assertJsonValidationErrorFor('base_currency_id');
 });
 
-it('should save seo for a non-default locale via the locale switcher', function () {
+it('should refuse a channel name longer than its column holds on update', function () {
+    $channel = Channel::factory()->create();
+    $locale = app()->getLocale();
+
+    $this->loginAsAdmin();
+
+    putJson(route('admin.settings.channels.update', $channel->id), [
+        'code' => $channel->code,
+
+        $locale => [
+            'name' => str_repeat('a', 256),
+            'seo_title' => fake()->sentence(),
+            'seo_description' => fake()->sentence(),
+            'seo_keywords' => fake()->words(3, true),
+        ],
+
+        'root_category_id' => 1,
+        'default_locale_id' => 1,
+        'base_currency_id' => 1,
+        'inventory_sources' => [1],
+        'locales' => [1],
+        'currencies' => [1],
+    ])
+        ->assertUnprocessable()
+        ->assertOnlyJsonValidationErrors(["{$locale}.name"]);
+});
+
+it('should save SEO for a non-default locale via the locale switcher', function () {
     $channel = Channel::factory()->create();
 
     $targetLocale = Locale::factory()->create();

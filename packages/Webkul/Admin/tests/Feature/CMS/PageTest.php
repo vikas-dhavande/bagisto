@@ -2,9 +2,12 @@
 
 use Webkul\CMS\Models\Page;
 use Webkul\CMS\Models\PageTranslation;
+use Webkul\Core\Models\Channel;
+use Webkul\Core\Models\ChannelTranslation;
 
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\get;
+use function Pest\Laravel\getJson;
 use function Pest\Laravel\postJson;
 use function Pest\Laravel\putJson;
 
@@ -34,6 +37,33 @@ it('should return the CMS pages index page', function () {
     get(route('admin.cms.index'))
         ->assertOk()
         ->assertSeeText(trans('admin::app.cms.index.title'));
+});
+
+it('should list the CMS page channels by their names in the current locale', function () {
+    $channel = Channel::factory()->create();
+
+    $channel->translations()->update(['name' => $name = 'Zeta '.fake()->unique()->lexify('??????')]);
+
+    ChannelTranslation::factory()->create([
+        'channel_id' => $channel->id,
+        'locale' => 'fr',
+        'name' => 'Canal '.fake()->unique()->lexify('??????'),
+    ]);
+
+    $page = createCmsPage(['locale' => 'en']);
+
+    $page->channels()->sync([core()->getDefaultChannel()->id, $channel->id]);
+
+    $this->loginAsAdmin();
+
+    getJson(route('admin.cms.index', [
+        'filters' => ['id' => [$page->id]],
+    ]), [
+        'X-Requested-With' => 'XMLHttpRequest',
+    ])
+        ->assertOk()
+        ->assertJsonCount(1, 'records')
+        ->assertJsonPath('records.0.channel', core()->getDefaultChannel()->name.', '.$name);
 });
 
 it('should deny guest access to the CMS pages index page', function () {
@@ -169,6 +199,25 @@ it('should fail validation when required fields are missing on update', function
         ->assertJsonValidationErrorFor("{$locale}.page_title")
         ->assertJsonValidationErrorFor("{$locale}.html_content")
         ->assertJsonValidationErrorFor('channels');
+});
+
+it('should refuse a page title or url key longer than their columns hold on update', function () {
+    $page = createCmsPage();
+    $locale = app()->getLocale();
+
+    $this->loginAsAdmin();
+
+    putJson(route('admin.cms.update', $page->id), [
+        $locale => [
+            'page_title' => str_repeat('a', 256),
+            'url_key' => str_repeat('b', 256),
+            'html_content' => '<p>Content</p>',
+        ],
+        'channels' => [1],
+        'locale' => $locale,
+    ])
+        ->assertUnprocessable()
+        ->assertOnlyJsonValidationErrors(["{$locale}.page_title", "{$locale}.url_key"]);
 });
 
 // ============================================================================

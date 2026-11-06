@@ -34,13 +34,13 @@ class AccountController extends Controller
         $user = auth()->guard('admin')->user();
 
         $this->validate(request(), [
-            'name' => 'required',
-            'email' => 'email|unique:admins,email,'.$user->id,
+            'name' => 'required|max:255',
+            'email' => 'max:255|email|unique:admins,email,'.$user->id,
             'password' => 'nullable|min:6|confirmed',
             'current_password' => 'required|min:6',
             'image.*' => 'nullable|mimes:bmp,jpeg,jpg,png,webp',
             'image_meta.*.file_name' => ['nullable', 'string', 'max:'.MediaFileName::MAX_LENGTH],
-        ]);
+        ], [], ['image.*' => trans('admin::app.components.media.images.image')]);
 
         $data = request()->only([
             'name',
